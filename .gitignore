@@ -4,3 +4,5 @@ __pycache__
 data/*
 !data/Info
 synthetic/*
+eval/density/*
+*.pt
