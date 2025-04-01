@@ -32,7 +32,7 @@ if __name__ == '__main__':
         syn_path = f'synthetic/{dataname}/{model}.csv'
     else:
         syn_path = args.path
-    real_path = f'synthetic/{dataname}/real.csv'
+    real_path = f'synthetic/{dataname}/test.csv'
 
     data_dir = f'data/{dataname}' 
 
@@ -42,9 +42,12 @@ if __name__ == '__main__':
     with open(f'{data_dir}/info.json', 'r') as f:
         info = json.load(f)
 
-    syn_data = pd.read_csv(syn_path)
     real_data = pd.read_csv(real_path)
-
+    syn_data = (
+        pd.read_csv(syn_path)
+        .sample(n=real_data.shape[0], replace=False)
+        .reset_index(drop=True)
+    )
 
     ''' Special treatment for default dataset and CoDi model '''
 
