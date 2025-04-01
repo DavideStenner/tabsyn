@@ -89,7 +89,7 @@ if __name__ == '__main__':
     model = args.model
 
     syn_path = f'synthetic/{dataname}/{model}.csv'
-    real_path = f'synthetic/{dataname}/real.csv'
+    real_path = f'synthetic/{dataname}/test.csv'
 
     data_dir = f'data/{dataname}' 
     print(syn_path)
