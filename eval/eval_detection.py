@@ -6,10 +6,12 @@ import sys
 
 import json
 import pickle
+import xgboost as xgb
 
 # Metrics
 from sdmetrics import load_demo
 from sdmetrics.single_table import LogisticDetection
+from sdmetrics.single_table.detection.sklearn import ScikitLearnClassifierDetectionMetric
 
 from matplotlib import pyplot as plt
 
@@ -23,6 +25,23 @@ parser.add_argument('--model', type=str, default='real')
 
 args = parser.parse_args()
 
+class XgboostDetection(ScikitLearnClassifierDetectionMetric):
+    """ScikitLearnClassifierDetectionMetric based on a XgboostClassifier.
+
+    This metric builds a Xgboost Classifier that learns to tell the synthetic
+    data apart from the real data, which later on is evaluated using Cross Validation.
+
+    The output of the metric is one minus the average ROC AUC score obtained.
+    """
+
+    name = 'Xgboost Detection'
+
+    @staticmethod
+    def _get_classifier():
+        return xgb.XGBClassifier(
+            max_depth=6
+        )
+        
 def reorder(real_data, syn_data, info):
     num_col_idx = info['num_col_idx']
     cat_col_idx = info['cat_col_idx']
@@ -95,10 +114,15 @@ if __name__ == '__main__':
 
     # qual_report.generate(new_real_data, new_syn_data, metadata)
 
-    score = LogisticDetection.compute(
+    score_logistic = LogisticDetection.compute(
+        real_data=new_real_data,
+        synthetic_data=new_syn_data,
+        metadata=metadata
+    )
+    score_xgboost = XgboostDetection.compute(
         real_data=new_real_data,
         synthetic_data=new_syn_data,
         metadata=metadata
     )
 
-    print(f'{dataname}, {model}: {score}')
+    print(f'{dataname}, {model}, Logistic: {score:.6f},  Xgboost: {score_xgboost:.6f}')
