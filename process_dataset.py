@@ -195,9 +195,9 @@ def process_data(name):
         train_df = data_df
 
     else:  
-        # Train/ Test Split, 90% Training, 10% Testing (Validation set will be selected from Training set)
+        # Train/ Test Split, 70% Training, 30% Testing (Validation set will be selected from Training set)
 
-        num_train = int(num_data*0.9)
+        num_train = int(num_data*0.3)
         num_test = num_data - num_train
 
         train_df, test_df, seed = train_val_test_split(data_df, cat_columns, num_train, num_test)
