@@ -125,4 +125,4 @@ if __name__ == '__main__':
         metadata=metadata
     )
 
-    print(f'{dataname}, {model}, Logistic: {score:.6f},  Xgboost: {score_xgboost:.6f}')
+    print(f'{dataname}, {model}, Logistic: {score_logistic:.6f},  Xgboost: {score_xgboost:.6f}')
