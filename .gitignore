@@ -6,3 +6,4 @@ data/*
 synthetic/*
 eval/density/*
 *.pt
+*.npy
