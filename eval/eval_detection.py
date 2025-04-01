@@ -97,9 +97,12 @@ if __name__ == '__main__':
     with open(f'{data_dir}/info.json', 'r') as f:
         info = json.load(f)
 
-    syn_data = pd.read_csv(syn_path)
     real_data = pd.read_csv(real_path)
-
+    syn_data = (
+        pd.read_csv(syn_path)
+        .sample(n=real_data.shape[0], replace=False)
+        .reset_index(drop=True)
+    )
     save_dir = f'eval/density/{dataname}/{model}'
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
