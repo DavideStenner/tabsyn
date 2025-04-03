@@ -652,8 +652,8 @@ def _evaluate_regression(train, test, info):
     best_rmse_scores = []
     best_avg_scores = []
 
-    y_trains = np.log(np.clip(y_trains, 1, 20000))
-    y_test = np.log(np.clip(y_test, 1, 20000))
+    # y_trains = np.log(np.clip(y_trains, 1, 20000))
+    # y_test = np.log(np.clip(y_test, 1, 20000))
 
     for model_spec in regressors:
         model_class = model_spec['class']
