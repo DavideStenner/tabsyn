@@ -1,9 +1,12 @@
 __pycache__
+baselines/*/ckpt
+baselines/*/*/__pycache__
 .venv
 .vscode
 data/*
 !data/Info
 synthetic/*
 eval/density/*
+eval/mle
 *.pt
 *.npy
