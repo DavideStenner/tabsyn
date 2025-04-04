@@ -234,7 +234,6 @@ def main(args):
         syn_X1 = X_res[-X_train_1.shape[0]:]
 
         num_inverse = dataset.num_transform.inverse_transform
-        cat_inverse = dataset.cat_transform.inverse_transform
 
         num_num_col = len(info['num_col_idx'])
 
@@ -244,19 +243,24 @@ def main(args):
         syn_X1_cat = syn_X1[:,num_num_col:]
 
         recover_X0_num = num_inverse(syn_X0_num)
-        recover_X0_cat = cat_inverse(syn_X0_cat)
         recover_X1_num = num_inverse(syn_X1_num)
-        recover_X1_cat = cat_inverse(syn_X1_cat)
 
         label_X0 = y_train[class_0_idx]
         label_X1 = y_train[class_1_idx]
 
         syn_num = np.concatenate((recover_X0_num, recover_X1_num), axis = 0)
-        syn_cat = np.concatenate((recover_X0_cat, recover_X1_cat), axis = 0)
         syn_y = np.concatenate((label_X0, label_X1), axis = 0)
         syn_y = syn_y[:, np.newaxis]
 
-        
+        if dataset.X_cat is not None:
+            cat_inverse = dataset.cat_transform.inverse_transform
+
+            recover_X0_cat = cat_inverse(syn_X0_cat)
+            recover_X1_cat = cat_inverse(syn_X1_cat)
+            syn_cat = np.concatenate((recover_X0_cat, recover_X1_cat), axis = 0)
+        else:
+            syn_cat = None
+            
         syn_df = recover_data(syn_num, syn_cat, syn_y, info)
 
         idx_name_mapping = info['idx_name_mapping']

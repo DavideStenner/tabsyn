@@ -400,7 +400,7 @@ def transform_dataset(
     cat_transform = None
     X_num = dataset.X_num
 
-    if X_num is not None and transformations.normalization is not None:
+    if X_num['train'].shape[1] != 0 and transformations.normalization is not None:
         X_num, num_transform = normalize(
             X_num,
             transformations.normalization,
@@ -409,7 +409,7 @@ def transform_dataset(
         )
         num_transform = num_transform
     
-    if dataset.X_cat is None:
+    if dataset.X_cat['train'].shape[1] == 0:
         assert transformations.cat_nan_policy is None
         assert transformations.cat_min_frequency is None
         # assert transformations.cat_encoding is None
