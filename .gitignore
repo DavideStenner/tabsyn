@@ -6,6 +6,7 @@ baselines/*/*/__pycache__
 data/*
 !data/Info
 synthetic/*
+eval/detection
 eval/density/*
 eval/mle
 *.pt
