@@ -184,19 +184,20 @@ def feat_transform(data, info, label_encoder = None, encoders = None, cmax = Non
             continue
 
         if idx in num_col_idx:
-            col = col.astype(np.float32)
-
-            if not cmin:
-                cmin = col.min()
+            feature = col.astype(np.float64)
+            cmin= None
+            cmax = None
+            # if not cmin:
+            #     cmin = col.min()
             
-            if not cmax:
-                cmax = col.max()
+            # if not cmax:
+            #     cmax = col.max()
 
-            if cmin >= 0 and cmax >= 1e3:
-                feature = np.log(np.maximum(col, 1e-2))
+            # if cmin >= 0 and cmax >= 1e3:
+            #     feature = np.log(np.maximum(col, 1e-2))
 
-            else:
-                feature = (col - cmin) / (cmax - cmin) * 5
+            # else:
+            #     feature = (col - cmin) / (cmax - cmin) * 5
 
         elif idx in cat_col_idx:
             encoder = encoders.get(idx)
