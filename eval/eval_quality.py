@@ -146,11 +146,12 @@ if __name__ == '__main__':
     }  # use the naive implementation of AlphaPrecision
     qual_score = np.mean(list(qual_res.values()))
 
-    print('alpha precision: {:.6f}, beta recall: {:.6f}'.format(qual_res['delta_precision_alpha_naive'], qual_res['delta_coverage_beta_naive'] ))
+    print('alpha precision: {:.6f}, beta recall: {:.6f}, authenticity: {:.6g}'.format(qual_res['delta_precision_alpha_naive'], qual_res['delta_coverage_beta_naive'], qual_res['authenticity_naive']))
 
     Alpha_Precision_all = qual_res['delta_precision_alpha_naive']
     Beta_Recall_all = qual_res['delta_coverage_beta_naive']
-
+    Authenticity_all = qual_res['authenticity_naive']
+    
     save_dir = f'eval/quality/{dataname}'
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -158,3 +159,4 @@ if __name__ == '__main__':
     with open(f'{save_dir}/{model}.txt', 'w') as f:
         f.write(f'{Alpha_Precision_all}\n')
         f.write(f'{Beta_Recall_all}\n')
+        f.write(f'{Authenticity_all}\n')
