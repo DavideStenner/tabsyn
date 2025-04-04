@@ -103,7 +103,7 @@ if __name__ == '__main__':
         .sample(n=real_data.shape[0], replace=False)
         .reset_index(drop=True)
     )
-    save_dir = f'eval/density/{dataname}/{model}'
+    save_dir = f'eval/detection/{dataname}/{model}'
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
@@ -127,5 +127,15 @@ if __name__ == '__main__':
         synthetic_data=new_syn_data,
         metadata=metadata
     )
-
+    overall_scores = {
+        "dataname": dataname,
+        "model": model,
+        "logistic": score_logistic,
+        "xgboost": score_xgboost
+    }
+    save_path = f'{save_dir}/{model}.json'
     print(f'{dataname}, {model}, Logistic: {score_logistic:.6f},  Xgboost: {score_xgboost:.6f}')
+    print('Saving scores to ', save_path)
+
+    with open(save_path, "w") as json_file:
+        json.dump(overall_scores, json_file)
