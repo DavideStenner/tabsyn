@@ -19,8 +19,9 @@ def main(args):
         os.makedirs(ckpt_dir)
 
     great = GReaT("distilgpt2",                         
-              epochs=100,                             
-              save_steps="no",                     
+              epochs=100,    
+              save_strategy="no",
+              save_steps=2000,                     
               logging_steps=50,                    
               experiment_dir=f"{curr_dir}/ckpt/{dataname}",
               batch_size=batch_size,
