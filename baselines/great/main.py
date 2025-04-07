@@ -20,7 +20,7 @@ def main(args):
 
     great = GReaT("distilgpt2",                         
               epochs=100,                             
-              #save_steps=2000,                     
+              save_steps="no",                     
               logging_steps=50,                    
               experiment_dir=f"{curr_dir}/ckpt/{dataname}",
               batch_size=batch_size,
