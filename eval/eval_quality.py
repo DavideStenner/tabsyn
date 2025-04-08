@@ -113,7 +113,7 @@ if __name__ == '__main__':
     else:
         cat_syn_data_np = cat_syn_data.to_numpy().astype('str')
 
-    encoder = OneHotEncoder()
+    encoder = OneHotEncoder(handle_unknown='ignore')
     encoder.fit(cat_real_data_np)
 
 
