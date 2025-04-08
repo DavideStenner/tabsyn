@@ -39,7 +39,8 @@ class XgboostDetection(ScikitLearnClassifierDetectionMetric):
     @staticmethod
     def _get_classifier():
         return xgb.XGBClassifier(
-            max_depth=6
+            max_depth=6,
+            n_estimators=500,
         )
         
 def reorder(real_data, syn_data, info):
