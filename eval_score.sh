@@ -16,6 +16,9 @@ for dataset in "${datasets[@]}"; do
         echo "Evaluating Detection $model for dataset: $dataset"
         python eval/eval_detection.py --dataname "$dataset" --model "$model"
 
+        echo "Evaluating Quality $model for dataset: $dataset"
+        python eval/eval_quality.py --dataname "$dataset" --model "$model"
+
     done
 done
 

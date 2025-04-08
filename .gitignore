@@ -9,5 +9,6 @@ synthetic/*
 eval/detection
 eval/density/*
 eval/mle
+eval/quality
 *.pt
 *.npy

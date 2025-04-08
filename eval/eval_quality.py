@@ -7,9 +7,9 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils_train import preprocess, TabularDataset
 from sklearn.preprocessing import OneHotEncoder
-from synthcity.metrics import eval_detection, eval_performance, eval_statistical
-from synthcity.plugins.core.dataloader import GenericDataLoader
-
+# from synthcity.metrics import eval_detection, eval_performance, eval_statistical
+# from synthcity.plugins.core.dataloader import GenericDataLoader
+from src.metrics import AlphaPrecision
 pd.options.mode.chained_assignment = None
 
 import argparse
@@ -129,24 +129,34 @@ if __name__ == '__main__':
     le_syn_num = pd.DataFrame(num_syn_data_np).astype(float)
     le_syn_cat = pd.DataFrame(cat_syn_data_oh).astype(float)
 
-    np.set_printoptions(precision=4)
+    # np.set_printoptions(precision=4)
 
     result = []
 
     print('=========== All Features ===========')
     print('Data shape: ', le_syn_data.shape)
 
-    X_syn_loader = GenericDataLoader(le_syn_data)
-    X_real_loader = GenericDataLoader(le_real_data)
+    # X_syn_loader = GenericDataLoader(le_syn_data)
+    # X_real_loader = GenericDataLoader(le_real_data)
 
-    quality_evaluator = eval_statistical.AlphaPrecision()
-    qual_res = quality_evaluator.evaluate(X_real_loader, X_syn_loader)
+    quality_evaluator = AlphaPrecision()
+    qual_res = quality_evaluator(le_real_data, le_syn_data)
     qual_res = {
         k: v for (k, v) in qual_res.items() if "naive" in k
     }  # use the naive implementation of AlphaPrecision
     qual_score = np.mean(list(qual_res.values()))
 
-    print('alpha precision: {:.6f}, beta recall: {:.6f}, authenticity: {:.6g}'.format(qual_res['delta_precision_alpha_naive'], qual_res['delta_coverage_beta_naive'], qual_res['authenticity_naive']))
+    print(
+        'alpha precision: {:.6f}, '
+        'beta recall: {:.6f}, '
+        'authenticity: {:.6f} '
+        'Quality Score: {:.6f} '.format(
+            qual_res['delta_precision_alpha_naive'], 
+            qual_res['delta_coverage_beta_naive'], 
+            qual_res['authenticity_naive'],
+            qual_score
+        )
+    )
 
     Alpha_Precision_all = qual_res['delta_precision_alpha_naive']
     Beta_Recall_all = qual_res['delta_coverage_beta_naive']
@@ -156,7 +166,12 @@ if __name__ == '__main__':
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
-    with open(f'{save_dir}/{model}.txt', 'w') as f:
-        f.write(f'{Alpha_Precision_all}\n')
-        f.write(f'{Beta_Recall_all}\n')
-        f.write(f'{Authenticity_all}\n')
+    result = {
+        'model': model,
+        'Alpha_Precision_all': Alpha_Precision_all,
+        'Beta_Recall_all': Beta_Recall_all,
+        'Authenticity_all': Authenticity_all,
+        'Quality_Score': qual_score,        
+    }
+    with open(f'{save_dir}/{model}.json', 'w') as file:
+        json.dump(result, file)
