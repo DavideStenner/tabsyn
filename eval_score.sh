@@ -4,7 +4,7 @@
 datasets=("adult" "default" "shoppers" "magic" "beijing" "news")
 
 # Define the list of methods
-models=("arf" "ctgan" "smote" "stasy" "codi" "tabddpm" "tabsyn" "real")
+models=("arf" "ctgan" "tvae" "smote" "stasy" "codi" "tabddpm" "tabsyn" "real")
 
 # Iterate over each dataset
 for dataset in "${datasets[@]}"; do
